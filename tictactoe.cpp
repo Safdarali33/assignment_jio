@@ -11,7 +11,7 @@ using namespace std;
 #define COMPUTERMOVE 'O'
 #define HUMANMOVE 'X'
   
-// A function to show the current board status
+// current status
 void showBoard(char board[][SIDE])
 {
     printf("\n\n");
@@ -50,8 +50,7 @@ void showInstructions()
 // A function to start the game 
 void initialise(char board[][SIDE], int moves[])
 {
-    // Initiate the random number generator so that 
-    // the same configuration doesn't arises
+    
     srand(time(NULL)); 
       
     // Initially the board is empty
@@ -71,7 +70,7 @@ void initialise(char board[][SIDE], int moves[])
     return;
 }
   
-// A function to declare the winner of the game
+
 void declareWinner(int whoseTurn)
 {
     if (whoseTurn == COMPUTER)
