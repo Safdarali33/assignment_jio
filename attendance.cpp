@@ -15,6 +15,11 @@ int main() {
                 late = 1;
             }
         }
+        if(abs>1){
+
+            break;
+            
+        }
     }
     if (abs > 1 || late > 2) {
         cout<<"False";
