@@ -1,199 +1,122 @@
-#include<bits/stdc++.h>
+#include <iostream>
+#include <stdlib.h>
 using namespace std;
-  
-#define COMPUTER 1
-#define HUMAN 2
-  
-#define SIDE 3 // length of bosrd
-  
-// Computer will move with 'O'
-// and human with 'X'
-#define COMPUTERMOVE 'O'
-#define HUMANMOVE 'X'
-  
-// current status
-void showBoard(char board[][SIDE])
-{
-    printf("\n\n");
-      
-    printf("\t\t\t  %c | %c  | %c  \n", board[0][0],
-                             board[0][1], board[0][2]);
-    printf("\t\t\t--------------\n");
-    printf("\t\t\t  %c | %c  | %c  \n", board[1][0],
-                             board[1][1], board[1][2]);
-    printf("\t\t\t--------------\n");
-    printf("\t\t\t  %c | %c  | %c  \n\n", board[2][0],
-                             board[2][1], board[2][2]);
+
+char board[3][3] = {{'1','2','3'},{'4','5','6'},{'7','8','9'}};
+
+int choice;
+int row,column;
+char turn = 'X';
+bool draw = false;
+
+
+
+void display_board(){
+
    
-    return;
-}
-  
 
-void showInstructions()
-{
-    printf("\t\t\t  Tic-Tac-Toe\n\n");
-    printf("Choose a cell numbered from 1 to 9 as below"
-            " and play\n\n");
-      
-    printf("\t\t\t  1 | 2  | 3  \n");
-    printf("\t\t\t--------------\n");
-    printf("\t\t\t  4 | 5  | 6  \n");
-    printf("\t\t\t--------------\n");
-    printf("\t\t\t  7 | 8  | 9  \n\n");
-      
-    printf("-\t-\t-\t-\t-\t-\t-\t-\t-\t-\n\n");
-  
-    return;
+    cout<<"PLAYER - 1 [X]t PLAYER - 2 [O]nn";
+    cout<<"tt     |     |     n";
+    cout<<"tt  "<<board[0][0]<<"  | "<<board[0][1]<<"  |  "<<board[0][2]<<" n";
+    cout<<"tt_____|_____|_____n";
+    cout<<"tt     |     |     n";
+    cout<<"tt  "<<board[1][0]<<"  | "<<board[1][1]<<"  |  "<<board[1][2]<<" n";
+    cout<<"tt_____|_____|_____n";
+    cout<<"tt     |     |     n";
+    cout<<"tt  "<<board[2][0]<<"  | "<<board[2][1]<<"  |  "<<board[2][2]<<" n";
+    cout<<"tt     |     |     n";
 }
-  
-  
-// A function to start the game 
-void initialise(char board[][SIDE], int moves[])
-{
-    
-    srand(time(NULL)); 
-      
-    // Initially the board is empty
-    for (int i=0; i<SIDE; i++)
-    {
-        for (int j=0; j<SIDE; j++)
-            board[i][j] = ' ';
+
+
+
+void player_turn(){
+    if(turn == 'X'){
+        cout<<"ntPlayer - 1 [X] turn : ";
     }
-      
-    // Fill the moves with numbers
-    for (int i=0; i<SIDE*SIDE; i++)
-        moves[i] = i;
-  
-    // randomise the moves
-    random_shuffle(moves, moves + SIDE*SIDE);
-      
-    return;
-}
-  
-
-void declareWinner(int whoseTurn)
-{
-    if (whoseTurn == COMPUTER)
-        printf("COMPUTER has won\n");
-    else
-        printf("HUMAN has won\n");
-    return;
-}
-  
-
-bool rowCrossed(char board[][SIDE])
-{
-    for (int i=0; i<SIDE; i++)
-    {
-        if (board[i][0] == board[i][1] &&
-            board[i][1] == board[i][2] && 
-            board[i][0] != ' ')
-            return (true);
+    else if(turn == 'O'){
+        cout<<"ntPlayer - 2 [O] turn : ";
     }
-    return(false);
-}
-  
-
-bool columnCrossed(char board[][SIDE])
-{
-    for (int i=0; i<SIDE; i++)
-    {
-        if (board[0][i] == board[1][i] &&
-            board[1][i] == board[2][i] && 
-            board[0][i] != ' ')
-            return (true);
-    }
-    return(false);
-}
-  
-
-bool diagonalCrossed(char board[][SIDE])
-{
-    if (board[0][0] == board[1][1] &&
-        board[1][1] == board[2][2] && 
-        board[0][0] != ' ')
-        return(true);
-          
-    if (board[0][2] == board[1][1] &&
-        board[1][1] == board[2][0] &&
-         board[0][2] != ' ')
-        return(true);
-  
-    return(false);
-}
-  
-// is game over or not
-bool gameOver(char board[][SIDE])
-{
-    return(rowCrossed(board) || columnCrossed(board)
-            || diagonalCrossed(board) );
-}
-  
-
-void playTicTacToe(int whoseTurn)
-{
-  
-    char board[SIDE][SIDE];
-      
-    int moves[SIDE*SIDE];
-
-    initialise(board, moves);
-
-    showInstructions();
-      
-    int moveIndex = 0, x, y;
-      
-    while (gameOver(board) == false && 
-            moveIndex != SIDE*SIDE)
-    {
-        if (whoseTurn == COMPUTER)
-        {
-            x = moves[moveIndex] / SIDE;
-            y = moves[moveIndex] % SIDE;
-            board[x][y] = COMPUTERMOVE;
-            printf("COMPUTER has put a %c in cell %d\n",
-                    COMPUTERMOVE, moves[moveIndex]+1);
-            showBoard(board);
-            moveIndex ++;
-            whoseTurn = HUMAN;
-        }
-          
-        else if (whoseTurn == HUMAN)
-        {
-            x = moves[moveIndex] / SIDE;
-            y = moves[moveIndex] % SIDE;
-            board[x][y] = HUMANMOVE;
-            printf ("HUMAN has put a %c in cell %d\n",
-                    HUMANMOVE, moves[moveIndex]+1);
-            showBoard(board);
-            moveIndex ++;
-            whoseTurn = COMPUTER;
-        }
-    }
-  
-    // If the game has drawn
-    if (gameOver(board) == false && 
-            moveIndex == SIDE * SIDE)
-        printf("It's a draw\n");
-    else
-    {
-     
-        if (whoseTurn == COMPUTER)
-            whoseTurn = HUMAN;
-        else if (whoseTurn == HUMAN)
-            whoseTurn = COMPUTER;
-          
+    //Taking input from user
    
-        declareWinner(whoseTurn);
+
+    cin>> choice;
+
+    //switch case to get which row and column will be update
+
+    switch(choice){
+        case 1: row=0; column=0; break;
+        case 2: row=0; column=1; break;
+        case 3: row=0; column=2; break;
+        case 4: row=1; column=0; break;
+        case 5: row=1; column=1; break;
+        case 6: row=1; column=2; break;
+        case 7: row=2; column=0; break;
+        case 8: row=2; column=1; break;
+        case 9: row=2; column=2; break;
+        default:
+            cout<<"Invalid Move";
     }
-    return;
+
+    if(turn == 'X' && board[row][column] != 'X' && board[row][column] != 'O'){
+        //updating the position for 'X' symbol if
+        //it is not already occupied
+        board[row][column] = 'X';
+        turn = 'O';
+    }else if(turn == 'O' && board[row][column] != 'X' && board[row][column] != 'O'){
+        //updating the position for 'O' symbol if
+        //it is not already occupied
+        board[row][column] = 'O';
+        turn = 'X';
+    }else {
+        //if input position already filled
+        cout<<"Box already filled!n Please choose another!!nn";
+        player_turn();
+    }
+    /* Ends */
+    display_board();
 }
-  
+
+
+
+bool gameover(){
+    //checking the win for Simple Rows and Simple Column
+    for(int i=0; i<3; i++)
+    if(board[i][0] == board[i][1] && board[i][0] == board[i][2] || board[0][i] == board[1][i] && board[0][i] == board[2][i])
+    return false;
+
+
+
+    if(board[0][0] == board[1][1] && board[0][0] == board[2][2] || board[0][2] == board[1][1] && board[0][2] == board[2][0])
+    return false;
+
+    //Checking the game is in continue mode or not
+    for(int i=0; i<3; i++)
+    for(int j=0; j<3; j++)
+    if(board[i][j] != 'X' && board[i][j] != 'O')
+    return true;
+
+    //Checking the if game already draw
+    draw = true;
+    return false;
+}
+
+
 
 int main()
 {
-
-    playTicTacToe(HUMAN);
-      
-    return (0);
-}
+    cout<<"tttT I C K -- T A C -- T O E -- G A M Ettt";
+    cout<<"nttttFOR 2 PLAYERSnttt";
+    while(gameover()){
+        display_board();
+        player_turn();
+        gameover();
+    }
+    if(turn == 'X' && draw == false){
+        cout<<"nnCongratulations!Player with 'X' has won the game";
+    }
+    else if(turn == 'O' && draw == false){
+        cout<<"nnCongratulations!Player with 'O' has won the game";
+    }
+    else
+    cout<<"nnGAME DRAW!!!nn";
+} 
